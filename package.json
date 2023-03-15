@@ -1,5 +1,6 @@
 {
   "name": "hongblog",
+  "homepage" : "https://computists.github.com/hfblog.io",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
