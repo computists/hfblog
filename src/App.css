@@ -5,6 +5,29 @@
 @layer components {
 
   .custom-container {
-        @apply p-4 border-2 border-solid border-gray-200 rounded-3xl bg-gray-100 drop-shadow-lg
+        @apply p-4 bg-white drop-shadow-lg
     }
+
+  li {
+    @apply p-1
+  }
+
+  .custom-button {
+    @apply text-white bg-blue-400 drop-shadow-lg
+    hover:bg-transparent hover:text-blue-400 rounded-md drop-shadow-lg
+    disabled:bg-transparent disabled:text-blue-200 
+  }
+  
+  .tag-button {
+    @apply text-[#2E4F4F] bg-blue-100 drop-shadow-lg
+    hover:bg-transparent hover:text-[#2E4F4F] rounded-md drop-shadow-lg
+  }
+
+  .custom-input {
+    @apply bg-slate-200 px-2
+  }
+
+  .top-button {
+    @apply bg-slate-800 text-slate-300 p-4 opacity-70 rounded-md
+  }
 }

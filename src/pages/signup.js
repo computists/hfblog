@@ -39,24 +39,22 @@ const Signup = () => {
   }
 
   return (
-    <div className="m-3 mt-10 mx-auto sm:max-w-[60%]">
-      <div className="mx-auto my-10 custom-container">
-        <form action="">
-            <div className="flex flex-col m-3">
-                <h1 className='mb-3 text-xl font-bold'>Sign Up</h1>
-                <span className="mb-3">Email</span>
-                <input type="email" className="h-8 mb-3" vlaue={inputData.email} onChange={(e) => {updateForm({email:e.target.value})}} />
-                <span className="mb-3">Password</span>
-                <input type="password" className="h-8 mb-3" value={inputData.password} onChange={(e) => {updateForm({password:e.target.value})}} />
-                <div className="flex justify-end">
-                    <button className="mx-2 px-4 py-2" onClick={onClickBack}>Back</button>
-                    <button className="mx-2 px-4 py-2" onClick={onSubmit}>Sign Up</button>
-                </div>
-                <p className='text-right mx-3 my-3'>Have an account already? <Link to="/login">Login</Link></p>
-                
-            </div>
-        </form>
-      </div>
+    <div className="m-3 mt-10 mx-auto md:max-w-[70%] lg:max-w-[716px] custom-container ">
+      <form onSubmit={onSubmit}>
+          <div className="flex flex-col m-3">
+              <h1 className='mb-3 text-xl font-bold'>Sign Up</h1>
+              <span className="mb-3">Email</span>
+              <input type="email" className="h-8 mb-3 custom-input" vlaue={inputData.email} onChange={(e) => {updateForm({email:e.target.value})}} />
+              <span className="mb-3">Password</span>
+              <input type="password" className="h-8 mb-3 custom-input" value={inputData.password} onChange={(e) => {updateForm({password:e.target.value})}} />
+              <div className="flex justify-end">
+                  <button type='button' className="mx-2 px-4 py-2 custom-button" onClick={onClickBack}>Back</button>
+                  <button type='submit' className="mx-2 px-4 py-2 custom-button">Sign Up</button>
+              </div>
+              <p className='text-right mx-3 my-3'>Have an account already? <Link to="/login">Login</Link></p>
+              
+          </div>
+      </form>
     </div>
   )
 }

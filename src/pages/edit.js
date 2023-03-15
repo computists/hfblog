@@ -36,13 +36,11 @@ query getPost($query: PostQueryInput!) {
   const headers = { Authorization: `Bearer ${user._accessToken}` }
   
   const loadPosts = async () => {
-    console.log("loadPosts")
     const resp = await request(GRAPHQL_ENDPOINT,
       getPostQuery,
       queryVariables,
       headers
     );
-    console.log(resp);
     
     const { title, description, tag, createdAt } = resp.post;
     setpostData({ title, description, tag, createdAt });
@@ -67,11 +65,45 @@ query getPost($query: PostQueryInput!) {
     });
   }
 
+  const deletePost = async () => {
+    const deletePostMutation = gql`
+    mutation DeletePost ($query: PostQueryInput!) {
+      deleteOnePost(query: $query) {
+        _id
+      }
+    }
+    `
+    const queryAndUpdateVariables = {
+      query: {
+        _id: postId
+      }
+    }
+
+    const headers = { Authorization: `Bearer ${user._accessToken}` };
+
+    let confirmText = "This post will be deleted. Are you sure you want to delete it?";
+    if (window.confirm(confirmText) === true) {
+      try {
+        await request(GRAPHQL_ENDPOINT, deletePostMutation, queryAndUpdateVariables, headers);
+      } catch (error) {
+        alert(error)
+      }
+      // Navigating to homepage once the updates are sent and confirmed.
+      alert("This post is deleted")
+      navigate(`/`);
+    } else {
+      alert("Cancel to delete")
+    }
+    
+    
+
+  }
+
   const updatePost = async (event) => {
     event.preventDefault();
     const { title, description, tag, createdAt } = postData;
 
-    const editExpenseMutation = gql`
+    const editPostMutation = gql`
     mutation EditPost($query: PostQueryInput!, $set: PostUpdateInput!) {
       updateOnePost(query: $query, set: $set) {
         _id
@@ -94,7 +126,7 @@ query getPost($query: PostQueryInput!) {
     const headers = { Authorization: `Bearer ${user._accessToken}` };
 
     try {
-      await request(GRAPHQL_ENDPOINT, editExpenseMutation, queryAndUpdateVariables, headers);
+      await request(GRAPHQL_ENDPOINT, editPostMutation, queryAndUpdateVariables, headers);
 
       // Navigating to homepage once the updates are sent and confirmed.
       navigate(`/`);
@@ -108,12 +140,11 @@ query getPost($query: PostQueryInput!) {
 
   return (
     <div className="m-3 mt-10 mx-auto sm:max-w-[70%] custom-container ">
-      {console.log(postId)}
         <form className="mx-auto flex-row ">
           <h3 className=" text-lg m-3">Edit your story here</h3>
           <label className="flex m-3"> Title <span className="required text-red-600"> * </span> </label>
           <div className="m-3">
-            <input className=" w-[100%] h-10" type="text" name="title" value={postData.title} onChange={onChangeValue}  placeholder=" Title" required />
+            <input className=" w-[100%] h-10 custom-input" type="text" name="title" value={postData.title} onChange={onChangeValue}  placeholder=" Title" required />
           </div>
           
           <label className="m-3"> Description <span className="required text-red-600"> * </span> </label>
@@ -128,12 +159,13 @@ query getPost($query: PostQueryInput!) {
               formats={formats}
             />
           </div>
-          <label className="flex m-3"> Tag </label>
+          <label className="flex m-3"> Tag (put '#' mark first example: #Hooray!)</label>
           <div className="m-3">
-            <input className=" w-[100%] h-10" type="text" name="tag" value={postData.tag} onChange={onChangeValue}  placeholder="Tag"/>
+            <input className=" w-[100%] h-10 custom-input" type="text" name="tag" value={postData.tag} onChange={onChangeValue}  placeholder="Tag"/>
           </div>
           <div className="text-center">
-            <button type="submit" className="px-4 py-2 text-gray-600 bg-gray-400" onClick={updatePost}> Update  </button>
+            <button type="button" className="mx-2 px-4 py-2 custom-button" onClick={updatePost}>Update</button>
+            <button type="button" className="mx-2 px-4 py-2 custom-button" onClick={deletePost}>Delete</button>
           </div> 
         </form>
     </div>

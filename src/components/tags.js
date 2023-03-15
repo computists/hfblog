@@ -1,23 +1,65 @@
-import React, { useContext } from 'react'
-import { PostContext } from '../contexts/post.context'
+import React from 'react'
 
-const Tags = ({tags, onTagClick}) => {
-  const { setTagsCont } = useContext(PostContext);
-
+const Tags = ({tags, afterUpdate, selectedTags, setSelectedTags}) => {
+  // Remove duplicated elements
+  const uniqueTags = Array.from(new Set(tags));
+  // Remove duplicated selectedTags(what for? when tag is clicked from outside of tags(e.g, articleForm))
+  selectedTags = Array.from(new Set(selectedTags));
+  setSelectedTags(selectedTags);
+  
   const onClickTags = (e) => {
-    console.log(e.target)
-    console.log(e.target.innerText)
-    onTagClick(e.target.innerText);    
+    const value = e.target.innerText;
+
+    // check whether value is already selected before or not.
+    if (selectedTags.filter(tag => tag === value).length === 0) {
+      setSelectedTags([...selectedTags, value])
+      afterUpdate();
+    } else {
+      console.log("Tags is already chose")
+    }
+  }
+
+  const onClearTags = () => {
+    setSelectedTags([]);
+    afterUpdate();
   }
   
+  const onRemoveOneFilter = (e) => {
+    console.log("remove")
+    //extract filter Name from parent
+    const parentName = e.target.parentElement.innerText;
+    let filterName = "";
+    if(parentName.endsWith("X")) {
+      filterName = parentName.substr(0,parentName.length-1)
+      setSelectedTags(selectedTags.filter((tag) => {
+        return tag !== filterName
+      }
+       ))
+      afterUpdate();
+    } else {
+      console.log("Filter Name has error")
+    }
+
+  }
+
   return (
     <div>
       <div className="mx-auto my-10 custom-container">
-        <ul>
+        <div className="mb-3 flex flex-col">
+          <button className="px-4 py-1 custom-button" onClick={onClearTags}>Clear Tags</button>
           {
-            tags.map(tag => <span className='mx-3' id={tag} onClick={onClickTags}>{tag}</span> )
+            (selectedTags.length > 0) ?
+              selectedTags.map(sTag => <button className='px-4 py-1 my-1 tag-button'>{sTag}<span className='text-red-600' onClick={onRemoveOneFilter}>X</span></button> )
+            :
+              <span className="px-4 py-1 ">No Tag selected</span>
           }
-        </ul>
+        </div>
+        <hr className='my-2'></hr>
+        <div className="">
+          {
+            uniqueTags.map(tag => <button className='mx-2 px-2 my-1 tag-button' id={tag} onClick={onClickTags}>{tag}</button> )
+          }
+        </div>
       </div>
       
     </div>

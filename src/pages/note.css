@@ -1,26 +1,30 @@
-.App-header {
-  background-color: #282c34;
-  min-height: 5vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-  margin-bottom: 5vh;
-  text-align: center;
-  padding: 12px;
- }
+.ql-container {
+  box-sizing: border-box;
+  border-radius: 5px;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 20px;
+  height: 100%;
+  margin: 0px;
+  position: relative;
+  background-color: #e2e8f0;
+}
 
-.wrapper-class {
-    padding: 1rem;
-    border: 1px solid #ccc;
-  }
-  .editor-class {
-    background-color:lightgray;
-    padding: 1rem;
-    border: 1px solid #ccc;
-  }
-  .toolbar-class {
-    border: 1px solid #ccc;
-  }
+.ql-editor .ql-size-small {
+  /* font-size: 0.75em; */
+  font-size: 16px;
+}
+
+.ql-editor .ql-size-medium {
+  /* font-size: 1.5em; */
+  font-size: 20px;
+}
+
+.ql-editor .ql-size-large {
+  /* font-size: 1.5em; */
+  font-size: 24px;
+}
+
+.ql-editor .ql-size-huge {
+  /* font-size: 2.5em; */
+  font-size: 30px;
+}

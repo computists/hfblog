@@ -13,11 +13,11 @@ export const UserContext = createContext();
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [ userEmailInfo, setUserEmailInfo ] = useState("");
+
   // Function to login user into our Realm using their email & password
   const emailPasswordLogin = async (email, password) => {
     const credentials = Credentials.emailPassword(email, password);
     const authedUser = await app.logIn(credentials);
-    console.log(`authedUser : ${authedUser}`)
     setUser(authedUser);
     setUserEmailInfo(email);
     return authedUser;

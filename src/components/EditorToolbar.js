@@ -35,7 +35,7 @@ function redoChange() {
 
 // Add sizes to whitelist and register them
 const Size = Quill.import("formats/size");
-Size.whitelist = ["extra-small", "small", "medium", "large"];
+Size.whitelist = ["small", "medium", "large", "huge"];
 Quill.register(Size, true);
 
 // Add fonts to whitelist and register them
@@ -115,10 +115,10 @@ export const QuillToolbar = (props) => {
       <option value="lucida">Lucida</option>
     </select>
       <select className="ql-size">
-        <option value="extra-small">Extra Small</option>
         <option value="small">Small</option>
         <option value="medium" selected>Medium</option>
         <option value="large">Large</option>
+        <option value="huge">Huge</option>
       </select>
       <select className="ql-header">
         <option value="1">Heading 1</option>

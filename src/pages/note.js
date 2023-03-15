@@ -8,10 +8,11 @@ import { UserContext } from '../contexts/user.context';
 import { GRAPHQL_ENDPOINT } from '../realm/constants';
 import { useNavigate } from "react-router-dom";
 
+import './note.css'
 
 const Note = () => {
   const navigate = useNavigate();
-  const { user } = useContext(UserContext);
+  const { user, userEmailInfo } = useContext(UserContext);
   const [postData, setpostData] = useState({
     title: '',
     description: '',
@@ -32,7 +33,8 @@ const Note = () => {
       title: postData.title,
       description: postData.description,
       tag: postData.tag,
-      author: user.id,
+      // author: user.id,
+      author: userEmailInfo,
       createdAt: postData.createdAt
     }
   };
@@ -64,15 +66,15 @@ const Note = () => {
       alert(error);
     }
   } 
-
+  
   return (
-      <div className="m-3 mt-10 mx-auto sm:max-w-[70%] custom-container ">
+      <div className="m-3 mt-10 mx-auto md:max-w-[70%] lg:max-w-[716px] custom-container ">
           {/* <form onSubmit={addDetails} className="update__forms"> */}
           <form className="mx-auto flex-row ">
             <h3 className=" text-lg m-3">What's is your story, today?</h3>
             <label className="flex m-3"> Title <span className="required text-red-600"> * </span> </label>
             <div className="m-3">
-              <input className=" w-[100%] h-10" type="text" name="title" value={postData.title} onChange={onChangeValue}  placeholder=" Title" required />
+              <input className=" w-[100%] h-10 custom-input" type="text" name="title" value={postData.title} onChange={onChangeValue}  placeholder=" Title" required />
             </div>
             
             <label className="m-3"> Description <span className="required text-red-600"> * </span> </label>
@@ -87,12 +89,12 @@ const Note = () => {
                 formats={formats}
               />
             </div>
-            <label className="flex m-3"> Tag </label>
+            <label className="flex m-3"> Tag (put '#' mark first example: #Hooray!)</label>
             <div className="m-3">
-              <input className=" w-[100%] h-10" type="text" name="tag" value={postData.tag} onChange={onChangeValue}  placeholder="Tag"/>
+              <input className=" w-[100%] h-10 custom-input" type="text" name="tag" value={postData.tag} onChange={onChangeValue}  placeholder="Tag"/>
             </div>
             <div className="text-center">
-              <button type="submit" className="px-4 py-2 text-gray-600 bg-gray-400" onClick={addPost}> Submit  </button>
+              <button type="submit" className="px-4 py-2 custom-button" onClick={addPost}> Submit  </button>
             </div> 
           </form>
       </div>

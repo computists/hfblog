@@ -5,7 +5,7 @@ import { UserContext } from '../contexts/user.context';
 import { GRAPHQL_ENDPOINT } from '../realm/constants';
 
 import Tags from '../components/tags';
-import Articles from '../components/articles';
+// import Articles from '../components/articles';
 import Browser from '../components/browser';
 import ArticleForm from '../components/articleForm';
 
@@ -19,14 +19,18 @@ const setSelectedTags = (value) => {
   selectedTags = value;
 }
 
+var browsingPosts = {posts:[], prev:0, current:1, next:0, total:0};
+const setBrowsingPosts = (value) => {
+  browsingPosts = value;
+}
+
 
 const Main = () => {
   const { user } = useContext(UserContext);
-  const [posts, setPosts] = useState([]);
-  const [tagsPosts, setTagsPosts] = useState([]);
-  // const [selectedTags, setSelectedTags] = useState([]);
-  //const [selectedPosts, setSelectedPosts] = useState([]);
+  const pageCount = 5;
 
+  const [tagsPosts, setTagsPosts] = useState([]);
+  
   const getAllPostsQuery = gql`
 query {
   posts(sortBy: CREATEDAT_DESC) {
@@ -34,6 +38,7 @@ query {
   title
   description
   tag
+  author
   createdAt
   } 
 }
@@ -47,18 +52,71 @@ query {
   }
 
   const loadPosts = async () => {
-    console.log("loadPosts")
     setTagsPosts([]);
-    
+    setSelectedPosts([]);
+      
     // get posts data from Atlas
     const resp = await request(GRAPHQL_ENDPOINT,
       getAllPostsQuery,
       queryVariables,
       headers
     );
-    console.log(resp);
-    setPosts(_ => resp.posts.map(post => ({ ...post, key: post._id, afterDelete })));
+    
+    // setPosts(_ => resp.posts.map(post => ({ ...post, key: post._id })));
 
+    // set filtered posts
+    if(selectedTags.length === 0) {
+      setSelectedPosts(resp.posts)
+      
+    } else {
+      // the problem of below codes is there is an array inside of array cause filter is inside of map
+      // It causes diffrent structure between posts and selectedPosts (array vs array inside array)
+      const aaaa = selectedTags.map((selectedTag) => (
+        resp.posts.filter((post) => {
+          return post.tag.includes(selectedTag)
+        })
+      ))
+      
+      aaaa.map((aaa) => {
+        aaa.map((aa) => {
+          setSelectedPosts([...selectedPosts, aa])
+        })
+      })
+
+      // remove duplication
+      setSelectedPosts(Array.from(new Set(selectedPosts)));
+    }
+
+    // selectedPosts data transform for browsing data
+    // showing only certain posts in a page
+    // var browsingPosts = {posts:[], prev:0, current:1, next:0, total:0};
+    browsingPosts.total = Math.ceil(selectedPosts.length / pageCount);
+    if (browsingPosts.current > browsingPosts.total) {
+      browsingPosts.current = browsingPosts.total;
+    }
+    if (browsingPosts.current <= browsingPosts.total) {
+      browsingPosts.next = browsingPosts.current + 1;
+    }
+    if (browsingPosts.current -1 >= 0) {
+      browsingPosts.prev = browsingPosts.current -1
+    }
+
+    let firstSlice = 0;
+    let lastSlice = 0;
+    if ((browsingPosts.current - 1)* pageCount < selectedPosts.length) {
+      firstSlice = (browsingPosts.current - 1)* pageCount
+    } else {
+      firstSlice = 0
+    }
+    if(browsingPosts.current * pageCount <= selectedPosts.length) {
+      lastSlice = browsingPosts.current * pageCount;
+    } else {
+      lastSlice = selectedPosts.length+1;
+      
+    }
+    
+    browsingPosts.posts = selectedPosts.slice(firstSlice, lastSlice);
+    
     // when tag data include two more tags, splits(with '#') tags and add to array separately
     resp.posts.map((post) => {
       let tagSplit = post.tag.split("#");
@@ -77,76 +135,55 @@ query {
       }
     })
 
-    // set filtered posts
-    if(selectedTags.length === 0) {
-      setSelectedPosts(posts)
-      console.log('111')
-    } else {
-      const aaaa = selectedTags.map((selectedTag) => (
-        posts.filter((post) => {
-          return post.tag.includes(selectedTag)
-        })
-      ))
-      setSelectedPosts(aaaa)
-      console.log('222')
-    }
 
   };
   useEffect(() => {
     loadPosts();
   }, []);  
 
-  const afterDelete = () => {
+  const afterUpdate = () => {
     loadPosts();
   }
 
-  const onTagClick = (value) => {
-    console.log("Tag Click")
-    console.log(selectedTags.filter(tag => tag === value).length)
-    // need to check whether tag is duplicate.
-    if (selectedTags.filter(tag => tag === value).length === 0) {
-      setSelectedTags([...selectedTags, value])
-      loadPosts();
-    } else {
-      console.log("Tags is already chose")
-    }
+  const scrollToDiv = (id) => {
+    const node = document.getElementById(id);
+    node.scrollIntoView({
+      behavior: 'smooth'
+    })
   }
 
-  const onCancelFilter = () => {
-    setSelectedPosts(posts);
-    setSelectedTags([]);
-    loadPosts();
+  const scrollTop = () => {
+    const node = document.getElementById("top");
+    node.scrollIntoView({
+      behavior: 'smooth'
+    })
   }
  
   return (
-    <div className='flex-col md:flex md:flex-row max-w-[1024px] mx-auto justify-center'>
+    <div className='flex-col md:flex md:flex-row max-w-[1024px] mx-auto justify-center' id='top'>
       <div className='max-w-[95%] md:max-w-[20%] mx-auto'>
-        <button className="" onClick={onCancelFilter}>cancel filter</button>
         <div className="">
           {
-            (selectedTags.length === 0) ?
-            <span className="">No filter</span>
-            :
-            <span className="">{selectedTags}</span>
-            
+            <Tags tags={tagsPosts} afterUpdate={afterUpdate} selectedTags={selectedTags} setSelectedTags={setSelectedTags} />  
           }
         </div>
-        {
-          console.log(selectedPosts)
-        }
-        <div className="">
-          {
-            <Tags tags={tagsPosts} onTagClick={onTagClick} />  
-          }
-        </div>
-        
       </div>
-      <div className='max-w-[95%] md:max-w-[70%] mx-auto'>
-        <Browser />
+      
+      <div className='max-w-[95%] md:w-[70%] mx-auto'>
         {
-          // posts.map(post => <ArticleForm {...post} /> )
-          selectedPosts.map(post => <ArticleForm {...post} /> )
+          (!user) ?
+          <div className="mx-auto my-10 custom-container text-center">Please Login.</div>
+          :
+          <Browser browsingPosts={browsingPosts} setBrowsingPosts={setBrowsingPosts} afterUpdate={afterUpdate} scrollToDiv={scrollToDiv}/>
         }
+        
+        <div>
+          {
+            // posts.map(post => <ArticleForm {...post} /> )
+            // selectedPosts.map(post => <ArticleForm {...post} /> )
+            browsingPosts.posts.map(post => <ArticleForm {...post} afterUpdate={afterUpdate} selectedTags={selectedTags} setSelectedTags={setSelectedTags} scrollTop={scrollTop} /> )
+          }
+        </div>
       </div>
     </div>
   )

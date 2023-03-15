@@ -2,8 +2,6 @@ import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { UserContext } from '../contexts/user.context'
 
-import './navbar.css'
-
 const Navbar = () => {
   const { user, logOutUser } = useContext(UserContext);
 
@@ -19,7 +17,6 @@ const Navbar = () => {
               <ul className="flex text-sm text-gray-500 mx-auto">
                 <Link className='mx-8' to='/'>Home</Link>
                 <Link className='mx-8' to='/note'>Note</Link>
-                <Link className='mx-8' to='/contact'>Contact</Link>
               </ul>
               <ul className="flex text-sm text-gray-500 mx-auto">
                 <Link className={user ? 'hidden' : 'mx-8'} to='/login'>Login</Link>
