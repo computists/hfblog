@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/hfblog.io/static/css/main.f85764f4.css",
-    "main.js": "/hfblog.io/static/js/main.af9ad661.js",
-    "static/media/header_img3.jpg": "/hfblog.io/static/media/header_img3.130e73acb1a1cd5975f8.jpg",
-    "static/media/bg.png": "/hfblog.io/static/media/bg.a17ebfe5b6b2167df06e.png",
-    "index.html": "/hfblog.io/index.html",
-    "main.f85764f4.css.map": "/hfblog.io/static/css/main.f85764f4.css.map",
-    "main.af9ad661.js.map": "/hfblog.io/static/js/main.af9ad661.js.map"
+    "main.css": "/hfblog/static/css/main.826e20fe.css",
+    "main.js": "/hfblog/static/js/main.5fe2cc30.js",
+    "static/media/header_img3.jpg": "/hfblog/static/media/header_img3.130e73acb1a1cd5975f8.jpg",
+    "static/media/bg.png": "/hfblog/static/media/bg.a17ebfe5b6b2167df06e.png",
+    "index.html": "/hfblog/index.html",
+    "main.826e20fe.css.map": "/hfblog/static/css/main.826e20fe.css.map",
+    "main.5fe2cc30.js.map": "/hfblog/static/js/main.5fe2cc30.js.map"
   },
   "entrypoints": [
-    "static/css/main.f85764f4.css",
-    "static/js/main.af9ad661.js"
+    "static/css/main.826e20fe.css",
+    "static/js/main.5fe2cc30.js"
   ]
 }
