@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/hfblog.io/static/css/main.f85764f4.css",
+    "main.js": "/hfblog.io/static/js/main.15bcde5f.js",
+    "static/media/header_img3.jpg": "/hfblog.io/static/media/header_img3.130e73acb1a1cd5975f8.jpg",
+    "static/media/bg.png": "/hfblog.io/static/media/bg.a17ebfe5b6b2167df06e.png",
+    "index.html": "/hfblog.io/index.html",
+    "main.f85764f4.css.map": "/hfblog.io/static/css/main.f85764f4.css.map",
+    "main.15bcde5f.js.map": "/hfblog.io/static/js/main.15bcde5f.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f85764f4.css",
+    "static/js/main.15bcde5f.js"
+  ]
+}
