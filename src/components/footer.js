@@ -34,7 +34,7 @@ const Footer = () => {
           </svg>
         </div>
 
-        <div className=' mx-5 pb-5 flex md:flex-col justify-center items-center'>
+        <div className=' mx-5 pb-5 md:pb-0 flex md:flex-col justify-center items-center'>
           {/* <!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --> */}
           <a href="https://github.com/computists" target="_blank" rel="noreferrer">
             <svg className='mx-auto' width="60" height="60" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512">
