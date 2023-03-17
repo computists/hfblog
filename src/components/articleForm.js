@@ -19,10 +19,15 @@ const ArticleForm = ({_id, title, description, tag, author, createdAt, afterUpda
 
   return (
     <div className="mx-auto my-10 mb-20 custom-container">
-      <div className="flex justify-between break-all" id={_id} >
+      {/* <div className="flex justify-between break-all" id={_id} >
         <img src={tImage} alt="title_image" className="absolute h-20 w-80 z-10" />
         <button className="text-2xl font-bold text-neutral-800 mx-2 z-20 mt-6 ml-10" onClick={scrollTop}>{title}</button>
-        <p className="date text-gray-500 mx-2">{(new Date(createdAt)).toDateString()}</p>
+        <p className="date text-gray-500 mx-2">{(new Date(createdAt)).toDateString()}</p> */}
+        
+      <div className="flex-col justify-between break-all" id={_id} >
+        <img src={tImage} alt="title_image" className="absolute h-20 w-80 z-10" />
+        <p className="date text-gray-500 mx-2 text-right">{(new Date(createdAt)).toDateString()}</p>
+        <button className=" relative text-2xl font-bold text-neutral-800 mx-2 ml-10 z-20" onClick={scrollTop}>{title}</button>
         
       </div>
       <hr className='my-5'></hr>
