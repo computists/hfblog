@@ -1,9 +1,9 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { useLocation, useNavigate, Link } from 'react-router-dom';
 import { UserContext } from '../contexts/user.context'
 
 const Login = () => {
-  const { emailPasswordLogin } = useContext(UserContext);
+  const { user, fetchUser, emailPasswordLogin } = useContext(UserContext);
   const [inputData, setInputData] = useState({email: "", password: ""});
   const navigate = useNavigate();
   const location = useLocation();
@@ -19,19 +19,19 @@ const Login = () => {
     navigate(redirectTo ? redirectTo : "/");
   }
 
-  // const loadUser = async () => {
-  //   if (!user) {
-  //     const fetchedUser = await fetchUser();
-  //     if (fetchedUser) {
-  //       // Redirecting them once fetched.
-  //       redirectNow();
-  //     }
-  //   }
-  // }
+  const loadUser = async () => {
+    if (!user) {
+      const fetchedUser = await fetchUser();
+      if (fetchedUser) {
+        // Redirecting them once fetched.
+        redirectNow();
+      }
+    }
+  }
 
-  // useEffect(() => {
-  //   loadUser();
-  // },[]);
+  useEffect(() => {
+    loadUser();
+  },[]);
 
   const onSubmit = async (event) => {
     event.preventDefault();

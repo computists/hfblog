@@ -44,8 +44,8 @@ const Tags = ({tags, afterUpdate, selectedTags, setSelectedTags}) => {
 
   return (
     <div>
-      <div className="mx-auto my-10 custom-container">
-        <div className="mb-3 flex flex-col">
+      <div className="mx-auto my-10 custom-container break-all">
+        <div className="mb-3 flex flex-col ">
           <button className="px-4 py-1 custom-button" onClick={onClearTags}>Clear Tags</button>
           {
             (selectedTags.length > 0) ?

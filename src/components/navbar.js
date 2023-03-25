@@ -12,7 +12,7 @@ const Navbar = () => {
   }
   
   return (
-    <div className=' w-screen h-10 '>
+    <div className='h-10'>
         <div className="px-2 flex justify-between items-center w-full h-full">
               <ul className="flex text-sm text-gray-500 mx-auto">
                 <Link className='mx-8' to='/'>Home</Link>

@@ -139,7 +139,7 @@ query getPost($query: PostQueryInput!) {
 
 
   return (
-    <div className="m-3 mt-10 mx-auto sm:max-w-[70%] custom-container ">
+    <div className="m-3 mt-10 mx-auto md:max-w-[70%] lg:max-w-[716px] custom-container ">
         <form className="mx-auto flex-row ">
           <h3 className=" text-lg m-3">Edit your story here</h3>
           <label className="flex m-3"> Title <span className="required text-red-600"> * </span> </label>

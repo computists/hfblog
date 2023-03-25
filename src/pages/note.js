@@ -78,7 +78,7 @@ const Note = () => {
             </div>
             
             <label className="m-3"> Description <span className="required text-red-600"> * </span> </label>
-            <div className="m-3">
+            <div className="m-3 ">
               <EditorToolbar toolbarId={'t1'} />
               <ReactQuill
                 theme="snow"
